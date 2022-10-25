@@ -4,7 +4,8 @@ COPY . /app
 RUN mvn compile war:war
 
 FROM tomcat:7
-LABEL maintainer=adrian.gschwend@zazuko.com
+LABEL maintainer=robipolli@gmail.com
+USER 1001
 ENV CATALINA_OPTS="-XX:+UseSerialGC"
 COPY --from=builder /app/target/lodview.war /usr/local/tomcat/webapps/lodview.war
 CMD ["catalina.sh", "run"]

@@ -1,12 +1,12 @@
-FROM maven:3-jdk-8 AS builder
+FROM openjdk:11-jdk-slim as builder
 WORKDIR /app
 COPY . /app
-RUN mvn compile war:war
+RUN ./gradlew clean build
 
-FROM tomcat:7
-LABEL maintainer=robipolli@gmail.com
+# Execute container as user.
+FROM openjdk:11-jdk-slim
+LABEL maintainer=g.nespolino@gmail.com
 USER 1001
-ENV CATALINA_OPTS="-XX:+UseSerialGC"
-COPY --from=builder /app/target/lodview.war /usr/local/tomcat/webapps/lodview.war
-CMD ["catalina.sh", "run"]
+COPY --from=builder /app/build/libs/lodview.jar /lodview.jar
+CMD ["java", "-jar", "/lodview.jar"]
 EXPOSE 8080 8009

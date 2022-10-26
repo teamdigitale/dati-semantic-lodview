@@ -4,9 +4,9 @@
         <Package name="~.*\.gen\..*" />
     </Match>
     <Match>
-        <Bug pattern="EI_EXPOSE_REP"/>
+        <Bug pattern="EI_EXPOSE_REP"/><!-- False positive when using lombok -->
     </Match>
     <Match>
-        <Bug pattern="EI_EXPOSE_REP2"/>
+        <Bug pattern="EI_EXPOSE_REP2"/><!-- False positive when using lombok -->
     </Match>
 </FindBugsFilter>

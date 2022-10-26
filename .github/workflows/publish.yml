@@ -43,8 +43,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Dependency Check
         run: ./gradlew dependencyCheckAnalyze
-      - name: Ensure HTTPInvoker is not used since we suppress errors on CVE-2016-1000027
-        run:  grep -ri httpinvoker src/main/ && exit 1
   security:
     runs-on: ubuntu-latest
     steps:

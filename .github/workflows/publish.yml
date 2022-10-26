@@ -43,6 +43,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Dependency Check
         run: ./gradlew dependencyCheckAnalyze
+      - name: No httpinvoker
+        run:  grep -ri httpinvoker src/
   security:
     runs-on: ubuntu-latest
     steps:

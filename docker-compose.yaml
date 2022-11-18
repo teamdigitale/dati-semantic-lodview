@@ -14,7 +14,25 @@ services:
     volumes:
       - .:/code:z
     working_dir: /code
+    environment:
+      - LodViewendpoint=https://schema.gov.it/sparql
     entrypoint:
     - /usr/bin/tail
     - -f
     - /dev/null
+  lodview:
+    build: .
+    environment:
+      - LodViewendpoint=https://schema.gov.it/sparql
+      # - LodViewendpoint=http://sparql:8890/sparql
+      # - LodViewIRInamespace=http://www.w3.org/
+      # - LodViewhttpRedirectSuffix=
+    volumes:
+      - .:/code:z
+    command: [
+      "java",
+      "-Djavax.net.ssl.trustStore=/code/test/truststore.jks",
+      "-Djavax.net.ssl.trustStorePassword=changeit",
+      "-jar",
+      "/lodview.jar"]
+

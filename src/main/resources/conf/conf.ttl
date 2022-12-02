@@ -201,7 +201,7 @@
 
 ##	preferred language for title and description ("auto" for delegate to the client)
 	
-	conf:preferredLanguage	"auto"; ## eg. "en" or "it"
+	conf:preferredLanguage	"it"; ## eg. "en" or "it"
 
 
 ## interface colors, choose a pair or a list for random colors

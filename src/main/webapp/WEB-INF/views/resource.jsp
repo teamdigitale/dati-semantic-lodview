@@ -32,9 +32,9 @@
                 </a>
                 </c:forEach>
                 </span>
-                <div id="seeOnLodlive" class="sp">
+                <!--<div id="seeOnLodlive" class="sp">
                     <a title="view resource on lodlive" target="_blank" href="${lodliveUrl }"></a>
-                </div>
+                </div>-->
             </h2>
         </hgroup>
         <c:choose>

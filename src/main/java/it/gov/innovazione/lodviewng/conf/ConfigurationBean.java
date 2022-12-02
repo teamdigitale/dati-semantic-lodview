@@ -66,6 +66,9 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
     private List<String> skipDomains;
     private List<String> mainOntologiesPrefixes;
     private Map<String, String> colorPairMatcher;
+    private String homeTitle;
+    private String homeDescription;
+    private String homeContent;
 
     public ColorStrategy getColorStrategy() {
         return colorStrategy;
@@ -134,6 +137,10 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
         }
 
         skipDomains = getMultiConfValue("skipDomains");
+        
+        homeTitle= getSingleConfValue("homeTitle");
+        homeDescription= getSingleConfValue("homeDescription");
+        homeContent= getSingleConfValue("homeContent");
     }
 
     private Map<String, String> populateColorPairMatcher() {

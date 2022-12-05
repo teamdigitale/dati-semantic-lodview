@@ -3,7 +3,7 @@
 /* ***************** */
 div#logoBanner div#logo {
     background-size: 134px 40px;
-    background-image: url(../img/logo-header-lodview.png) !important;
+    background-image: url(../img/logo_istat.png) !important;
     height: 80px;
     background-position: left center;
     background-repeat: no-repeat;
@@ -13,7 +13,7 @@ div#logoBanner div#logo {
 
 @media ( -webkit-min-device-pixel-ratio: 2) , ( min-resolution: 192dpi) {
     div#logoBanner div#logo {
-        background-image: url(../img/logo-header-lodview@2x.png) !important;
+        background-image: url(../img/logo_istat@2x.png) !important;
     }
 }
 

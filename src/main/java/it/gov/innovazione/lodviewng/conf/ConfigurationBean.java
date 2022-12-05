@@ -38,6 +38,7 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
     private String httpRedirectSuffix;
     private String httpRedirectPrefix;
     private String endPointUrl;
+    private String endPointUrlInternal;
     private String IRInamespace;
     private String contentEncoding;
     private String staticResourceURL;
@@ -66,6 +67,9 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
     private List<String> skipDomains;
     private List<String> mainOntologiesPrefixes;
     private Map<String, String> colorPairMatcher;
+    private String homeTitle;
+    private String homeDescription;
+    private String homeContent;
 
     public ColorStrategy getColorStrategy() {
         return colorStrategy;
@@ -77,6 +81,7 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
         confModel = RDFDataMgr.loadModel(ResourceClassPathLoader.toFile("conf/" + confFile).getAbsolutePath());
 
         endPointUrl = getSingleConfValue("endpoint");
+        endPointUrlInternal = getSingleConfValue("endpointInternal");
         endPointType = getSingleConfValue("endpointType", "");
         authPassword = getSingleConfValue("authPassword");
         authUsername = getSingleConfValue("authUsername");
@@ -134,6 +139,10 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
         }
 
         skipDomains = getMultiConfValue("skipDomains");
+        
+        homeTitle= getSingleConfValue("homeTitle");
+        homeDescription= getSingleConfValue("homeDescription");
+        homeContent= getSingleConfValue("homeContent");
     }
 
     private Map<String, String> populateColorPairMatcher() {

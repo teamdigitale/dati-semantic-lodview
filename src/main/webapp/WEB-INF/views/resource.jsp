@@ -32,9 +32,9 @@
                 </a>
                 </c:forEach>
                 </span>
-                <div id="seeOnLodlive" class="sp">
+                <!--<div id="seeOnLodlive" class="sp">
                     <a title="view resource on lodlive" target="_blank" href="${lodliveUrl }"></a>
-                </div>
+                </div>-->
             </h2>
         </hgroup>
         <c:choose>
@@ -54,9 +54,6 @@
                                 var="el">
                             <div class="lang ${el.getLang()}" data-lang="${el.getLang()}">
                                     ${el.getValue()}
-                                <c:if test='${el.getDataType()!=null && !el.getDataType().equals("")}'>
-                                    <span class="dType">${el.getNsDataType()}</span>
-                                </c:if>
                             </div>
                         </c:forEach>
                     </div>

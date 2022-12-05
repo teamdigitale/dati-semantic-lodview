@@ -43,13 +43,13 @@ public class SPARQLEndPoint {
         // logger.trace("executing query on " + conf.getEndPointUrl());
         List<TripleBean> results = new ArrayList<TripleBean>();
         if (conf.getAuthPassword() != null && !conf.getAuthPassword().equals("")) {
-            AuthEnv.get().registerUsernamePassword(URI.create(conf.getEndPointUrl()), conf.getAuthUsername(), conf.getAuthPassword());
+            AuthEnv.get().registerUsernamePassword(URI.create(conf.getEndPointUrlInternal()), conf.getAuthUsername(), conf.getAuthPassword());
         }
         for (String query : queries) {
             // logger.trace("-- " + parseQuery(query, IRI, aProperty,
             // start, filter));
             QueryExecution qe = QueryExecutionHTTP.create()
-                    .endpoint(conf.getEndPointUrl())
+                    .endpoint(conf.getEndPointUrlInternal())
                     .query(parseQuery(query, IRI, aProperty, start, filter))
                     .build();
             //QueryExecutionFactory.sparqlService(conf.getEndPointUrl(), parseQuery(query, IRI, aProperty, start, filter), auth);
@@ -64,7 +64,7 @@ public class SPARQLEndPoint {
                     // logger.trace("query!!! " + parseQuery(query, IRI,
                     // aProperty, start, filter));
                     QueryExecution qe = QueryExecutionHTTP.create()
-                            .endpoint(conf.getEndPointUrl())
+                            .endpoint(conf.getEndPointUrlInternal())
                             .query(parseQuery(query, IRI, aProperty, start, filter))
                             .build();
                     if (!hasInverses) {
@@ -317,8 +317,8 @@ public class SPARQLEndPoint {
     }
 
     public String testEndpoint(ConfigurationBean conf) {
-        logger.info("testing connection on " + conf.getEndPointUrl());
-        QueryExecution qe = QueryExecutionFactory.sparqlService(conf.getEndPointUrl(), "select ?s {?s ?p ?o} LIMIT 1");
+        logger.info("testing connection on " + conf.getEndPointUrlInternal());
+        QueryExecution qe = QueryExecutionFactory.sparqlService(conf.getEndPointUrlInternal(), "select ?s {?s ?p ?o} LIMIT 1");
         String msg = "";
         try {
             ResultSet rs = qe.execSelect();

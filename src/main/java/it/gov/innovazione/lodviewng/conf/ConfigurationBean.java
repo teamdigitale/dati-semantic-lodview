@@ -38,6 +38,7 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
     private String httpRedirectSuffix;
     private String httpRedirectPrefix;
     private String endPointUrl;
+    private String endPointUrlInternal;
     private String IRInamespace;
     private String contentEncoding;
     private String staticResourceURL;
@@ -80,6 +81,7 @@ public class ConfigurationBean implements ServletContextAware, Cloneable {
         confModel = RDFDataMgr.loadModel(ResourceClassPathLoader.toFile("conf/" + confFile).getAbsolutePath());
 
         endPointUrl = getSingleConfValue("endpoint");
+        endPointUrlInternal = getSingleConfValue("endpointInternal");
         endPointType = getSingleConfValue("endpointType", "");
         authPassword = getSingleConfValue("authPassword");
         authUsername = getSingleConfValue("authUsername");

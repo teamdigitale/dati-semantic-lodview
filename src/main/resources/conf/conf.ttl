@@ -67,8 +67,9 @@
 
 ## 	EndPoint
 
-	conf:endpoint <http://localhost:8890/sparql>;
-	conf:endpointType "virtuoso"; 	## 	just "virtuoso" is handled right now, this will add some "rawdata" 
+	conf:endpoint "http://localhost:8890/sparql";
+	conf:endpointInternal "http://localhost:8890/sparql";
+	conf:endpointType "virtuoso"; 	## 	just "virtuoso" is handled right now, this will add some "rawdata"
 									##	options in the footer, leave this blank if you don't want these links
 
 ########## give it a try opening http://localhost:8080/lodview/Rome

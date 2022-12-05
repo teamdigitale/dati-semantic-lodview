@@ -214,7 +214,7 @@ public class ResourceController {
                     return new ErrorController(conf).error406(res, model, colorPair);
                 }
             } else {
-                return resourceRaw(conf, model, IRI, conf.getEndPointUrl(), matchItem.getContentTypeStr());
+                return resourceRaw(conf, model, IRI, conf.getEndPointUrlInternal(), matchItem.getContentTypeStr());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -12,10 +12,6 @@
         "<sp:message code='title.lodCloud' text='data from the linked data cloud' javaScriptEscape='true' />": null
     };
 
-    $('#logo').click(function () {
-        document.location = '${conf.getHomeUrl()}';
-    });
-
     var callingPage = null;
     var callingPageTitles = null;
     $(function () {

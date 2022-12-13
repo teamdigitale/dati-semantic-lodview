@@ -1,7 +1,7 @@
 <%@page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
-<footer>
+<footer style="min-height: 176px">
     <div id="download">
         <a href="http://lodview.it" id="linkBack"></a>
         <a href="https://github.com/dvcama/LodView" id="linkGit" target="_blank"
@@ -16,7 +16,7 @@
                 </c:when>
                 <c:otherwise>
                     <li><sp:message code='footer.yesSparql' text='data from:'/> <a
-                            href="${conf.getEndPointUrl()}">${conf.getEndPointUrl()}</a></li>
+                            href="${conf.getEndPointUrl()}">https://schema.gov.it/sparql</a></li>
                 </c:otherwise>
             </c:choose>
             <!--<li><a target="_blank" href="${lodliveUrl}"><sp:message code='footer.viewLodlive'

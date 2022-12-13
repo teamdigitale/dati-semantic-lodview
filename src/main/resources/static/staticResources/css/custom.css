@@ -19,6 +19,7 @@ div#logoBanner div#logo {
 
 body {
     background-color: #00264d !important;
+    font-family: Titillium Web,Geneva,Tahoma,sans-serif;
 }
 
 div#inverses {
@@ -31,4 +32,72 @@ div#inverses {
 /* ********************************** */
 #customFooter {
     display: none;
-} 
+}
+
+.container-fluid {
+     margin: 0 auto;
+}
+
+.normal-breack-text {
+    word-break: break-all;
+}
+
+.header-h {
+    min-height: 104px;
+}
+
+#abstract {
+    background: #0059b3;
+    color: white;
+    padding: 30px;
+}
+
+.it-header-slim-wrapper {
+    height: auto !important;
+}
+.it-header-slim-wrapper-content {
+    padding: 0.3em;
+}
+
+hgroup  {
+    padding: 0;
+}
+
+hgroup h1 {
+    padding: 30px;
+    font-weight: bold;
+    line-height: 1em;
+    font-size: 48px;
+}
+
+.h2-24 {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.pad-30 {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+hgroup h2 {
+    margin-bottom: auto;
+}
+
+#abstract label a {
+    color: white !important;
+}
+
+#linkGit {
+    margin-top: 60px !important;
+}
+
+#footer {
+    background-color: white;
+}
+
+.linkfooter {
+    color: white;
+    font-weight: bold;
+    font-size: small;
+}

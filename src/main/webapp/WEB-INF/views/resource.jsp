@@ -9,24 +9,23 @@
 </head>
 <body id="top">
 <article>
-    <div id="logoBanner">
-        <div id="logo">
-            <!-- placeholder for logo -->
-        </div>
-    </div>
-    <header>
+    <jsp:include page="inc/schema_header.jsp"></jsp:include>
         <hgroup>
             <h1><span>${results.getTitle()}</span></h1>
             <h2>
-                <a class="iri" href="${results.getMainIRI()}">${results.getMainIRI()}</a> <span class="istance"> <c:forEach
+                <a class="iri pad-30" href="${results.getMainIRI()}">${results.getMainIRI()}</a> <span class="istance"> <c:forEach
                     end="0" items='${results.getResources(results.getMainIRI()).get(results.getTypeProperty())}'
                     var="el">
 							<a title="&lt;${el.getValue()}&gt;" href="${el.getUrl()}"
                                <c:if test="${!el.isLocal()}">target="_blank" </c:if>> <c:choose>
 									<c:when test='${el.getNsValue().startsWith("null:")}'>&lt;${el.getValue().replaceAll("([#/])([^#/]+)$","$1<span>$2")}</span>&gt;
                 </c:when>
-                <c:otherwise><span class="istanceOf"><sp:message code='label.anEntityOfType'
-                                                                 text='an entity of type'/>:</span> ${el.getNsValue().replaceAll(".+:","<span>")}</span>
+                <c:otherwise>
+                    <span class="pad-30"> <span class="istanceOf">
+                        <sp:message code='label.anEntityOfType' text='an entity of type'/>:
+                    </span> ${el.getNsValue().replaceAll(".+:","<span>")}
+                    </span>
+                    </span>
                 </c:otherwise>
                 </c:choose>
                 </a>
@@ -63,7 +62,6 @@
                 <div id="abstract" class="empty"></div>
             </c:otherwise>
         </c:choose>
-    </header>
 
     <c:choose>
         <c:when test='${hasImages || hasMap || hasLod || hasVideos || hasAudios}'>
@@ -195,6 +193,7 @@
     <jsp:include page="inc/custom_footer.jsp"></jsp:include>
 </article>
 <jsp:include page="inc/footer.jsp"></jsp:include>
+<jsp:include page="inc/schema_footer.jsp"></jsp:include>
 <c:import url="inc/scripts.jsp"></c:import>
 <div id="loadPanel">
     <p id="lmessage">

@@ -1,27 +1,20 @@
 <%@page session="true" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html version="XHTML+RDFa 1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
->
+<html version="XHTML+RDFa 1.1">
 <head data-color="${colorPair}" profile="http://www.w3.org/1999/xhtml/vocab">
     <title>LodView &mdash; error ${statusCode}</title>
     <jsp:include page="inc/header.jsp"></jsp:include>
 </head>
 <body id="errorPage" class="error${statusCode}">
 <article>
-    <div id="logoBanner">
-        <div id="logo">
-            <!-- placeholder for logo -->
-        </div>
-    </div>
-    <header>
-        <hgroup>
-            <div id="owl"></div>
-            <h1>${statusCode}</h1>
-            <h2></h2>
-        </hgroup>
-        <div id="abstract"></div>
-    </header>
+    <jsp:include page="inc/schema_header.jsp"></jsp:include>
+    <hgroup>
+        <div id="owl"></div>
+        <h1>${statusCode}</h1>
+        <h2></h2>
+    </hgroup>
+    <div id="abstract"></div>
     <div id="bnodes">
         <c:choose>
             <c:when test="${statusCode =='500'}">

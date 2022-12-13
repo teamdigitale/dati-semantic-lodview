@@ -19,6 +19,7 @@
       content="LodView is a powerful RDF viewer, IRI dereferencer and opensource SPARQL navigator">
 <link rel="icon" type="image/png" href="${conf.getStaticResourceURL()}img/favicon.png">
 <!-- managing maps -->
+<link rel="stylesheet" href="${conf.getStaticResourceURL()}css/bootstrap-italia.min.css"/>
 <link rel="stylesheet" href="${conf.getStaticResourceURL()}vendor/leaflet/leaflet.css"/>
 <script src="${conf.getStaticResourceURL()}vendor/leaflet/leaflet.js"></script>
 <link rel="canonical" href="${results.getMainIRI()}">
@@ -26,7 +27,7 @@
 <script src="${conf.getStaticResourceURL()}vendor/modernizr-custom.min.js"></script>
 <c:set var="color1" value='${colorPair.replaceAll("-.+","") }' scope="page"/>
 <c:set var="color2" value='${colorPair.replaceAll(".+-","") }' scope="page"/>
-<style type="text/css">
+<style>
     hgroup, #linking a span, #audio .audio {
         background-color: ${color1
 }

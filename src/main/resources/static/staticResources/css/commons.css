@@ -602,7 +602,6 @@ aside.empty, #bnodes.empty, #directs.empty, #inverses.empty, #abstract.empty {
 }
 
 footer {
-    min-height: 176px;
     color: #fff;
     padding: 24px;
 }

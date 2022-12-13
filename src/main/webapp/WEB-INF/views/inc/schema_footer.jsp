@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <footer id="footer" tabindex="-1" style="padding-bottom: 0; padding-left: 0; padding-right: 0">
     <div class="container-fluid px-5" style="margin-bottom: 24px; margin-left: 24px; margin-right: 24px;">
         <div class="row footer_logoteam">
@@ -63,7 +65,7 @@
         <div class="container-fluid px-5" style="background-color: #00264d !important; color: white">
             <div class="row mx-0 my-0 pt-3 align-items-center">
                 <p class=" pr-5">
-                    <a class="FooterLinks_bottomFooter__PetlF linkfooter" href="/privacy-policy">
+                    <a class="FooterLinks_bottomFooter__PetlF linkfooter" href="${conf.getHomeUrl()}/privacy-policy">
                         Informativa privacy
                     </a>
                 </p>

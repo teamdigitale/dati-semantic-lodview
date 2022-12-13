@@ -1,5 +1,5 @@
 <footer id="footer" tabindex="-1" style="padding-bottom: 0; padding-left: 0; padding-right: 0">
-    <div class="container-fluid px-5">
+    <div class="container-fluid px-5" style="margin-bottom: 24px; margin-left: 24px; margin-right: 24px;">
         <div class="row footer_logoteam">
             <div class="footer_logo_img"><a aria-label="Vai al sito del pnrr" href="https://ec.europa.eu/info/index_it">
                 <svg width="210" height="65" viewBox="0 0 206 65" fill="none" xmlns="http://www.w3.org/2000/svg"

@@ -45,7 +45,7 @@
                                     </div>
                                     <div class="col-md-10">
                                         <div class="it-brand-text"><h2 class="h3">Schema</h2>
-                                            <h3 style="color: white; font-size: small">Il catalogo nazionale della
+                                            <h3 style="color: white; text-transform: unset">Il catalogo nazionale della
                                                 semantica dei dati</h3>
                                         </div>
                                     </div>

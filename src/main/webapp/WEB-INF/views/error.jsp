@@ -40,6 +40,8 @@
         </c:choose>
     </div>
 </article>
+<jsp:include page="inc/schema_footer.jsp"></jsp:include>
+
 <script>
 
     $('#logo').click(function () {

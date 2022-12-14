@@ -65,12 +65,12 @@
         <div class="container-fluid px-5" style="background-color: #00264d !important; color: white">
             <div class="row mx-0 my-0 pt-3 align-items-center">
                 <p class=" pr-5">
-                    <a class="FooterLinks_bottomFooter__PetlF linkfooter" href="${conf.getHomeUrl()}/privacy-policy">
+                    <a class="footerLinks bottomFooter" href="${conf.getHomeUrl()}/privacy-policy">
                         Informativa privacy
                     </a>
                 </p>
                 <p class="pr-5">
-                    <a class="FooterLinks_bottomFooter__PetlF linkfooter" href="https://form.agid.gov.it/view/eb6c03ab-525a-42f7-bb41-e828d89f5b82">
+                    <a class="footerLinks bottomFooter" href="https://form.agid.gov.it/view/eb6c03ab-525a-42f7-bb41-e828d89f5b82">
                         Dichiarazione di accessibilit&agrave;
                     </a>
                 </p>

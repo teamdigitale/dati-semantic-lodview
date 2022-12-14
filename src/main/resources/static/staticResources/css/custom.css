@@ -96,8 +96,26 @@ hgroup h2 {
     background-color: white;
 }
 
-.linkfooter {
-    color: white;
-    font-weight: bold;
-    font-size: small;
+.footerLinks {
+    height: 62px;
+    margin: 50px 0 0;
+    background-color: #01254c;
+}
+
+.bottomLabel {
+    color: #0bd9d2;
+    font-size: 15px;
+    padding-right: 15px;
+}
+
+a:hover {
+    color: white !important;
+}
+.bottomFooter {
+    color: white !important;
+    font-size: 15px;
+    padding-right: 15px;
+}
+.bottomFooter:hover {
+    color: #0bd9d2 !important;
 }

@@ -12,7 +12,7 @@
                                     href="https://innovazione.gov.it/dipartimento/"><u>Dipartimento per la
                                 trasformazione digitale</u></a><span class="mr-1 ml-sm-1 ml-0"> e </span><a
                                     aria-label="Vai al sito dell'Istat"
-                                    href="https://www.istat.it/"><u>ISTAT</u></a>
+                                    href="https://www.istat.it/"><u>Istat</u></a>
                             </div>
                         </div>
                     </div>

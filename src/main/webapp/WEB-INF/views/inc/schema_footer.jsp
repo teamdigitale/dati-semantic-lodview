@@ -65,7 +65,12 @@
         <div class="container-fluid px-5" style="background-color: #00264d !important; color: white">
             <div class="row mx-0 my-0 pt-3 align-items-center">
                 <p class=" pr-5">
-                    <a class="footerLinks bottomFooter" href="${conf.getHomeUrl()}/privacy-policy">
+                    <c:if test="${conf.getHomeUrl().equals(\"/\")}">
+                        <a class="footerLinks bottomFooter" href="/privacy-policy">
+                    </c:if>
+                    <c:if test="${!conf.getHomeUrl().equals(\"/\")}">
+                        <a class="footerLinks bottomFooter" href="${conf.getHomeUrl()}/privacy-policy">
+                    </c:if>
                         Informativa privacy
                     </a>
                 </p>

@@ -463,7 +463,7 @@
                     });
                 } else if (act === 'show') {
                     var data = obj.children('[data-label]');
-                    var t = $('<div class="tooltip" style="display:block;visibility:hidden"><strong>' + data.attr("data-label") + '</strong>' + (data.attr("data-comment") ? '<br />' + data.attr("data-comment") : '') + '</div>');
+                    var t = $('<div class="lv-tooltip" style="display:block;visibility:hidden"><strong>' + data.attr("data-label") + '</strong>' + (data.attr("data-comment") ? '<br />' + data.attr("data-comment") : '') + '</div>');
                     obj.prepend(t);
                     var th = obj.position().top - $(window).scrollTop() + t.height();
                     var wh = window.innerHeight - 50;
@@ -480,10 +480,10 @@
                     t.show();
                 } else if (act === 'remove') {
                     var p = obj.parent();
-                    p.find('.tooltip').fadeOut('fast', function () {
+                    p.find('.lv-tooltip').fadeOut('slow', function () {
                         $(this).remove();
                     });
-                    p.find('.i').fadeOut('fast', function () {
+                    p.find('.i').fadeOut('slow', function () {
                         $(this).remove();
                     });
                 }

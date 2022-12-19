@@ -870,7 +870,7 @@ footer #linkBack:hover {
     z-index: 9;
 }
 
-.tooltip {
+.lv-tooltip {
     display: none;
     background-color: #212121;
     font-family: 'Roboto', sans-serif;

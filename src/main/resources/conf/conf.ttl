@@ -194,7 +194,7 @@
 								dc:description , skos:definition ,  <http://dbpedia.org/ontology/abstract>;
 								
 	conf:imageProperties		foaf:depiction , <http://erlangen-crm.org/120111/P138i_has_representation> , crm-owl:P138i_has_representation ,
-								<http://www.researchspace.org/ontology/FR138i_representation>;
+								<http://www.researchspace.org/ontology/FR138i_representation> , <https://w3id.org/italia/onto/ADMS/depiction>;
 								
 	conf:longitudeProperties	geo:long;
 	conf:latitudeProperties		geo:lat;

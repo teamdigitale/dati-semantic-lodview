@@ -24,7 +24,7 @@
                 <c:choose>
                     <c:when test="${veryShortProps}">
 						<span class="multiInLine"> <c:if test="${!done}">
-                            <c:if test='${ela.getDataType()!=null && !ela.getDataType().equals("")}'>
+                            <c:if test='${ela.getDataType()!=null && !ela.getDataType().equals("") && !ela.getDataType().toLowerCase().contains("string")}'>
                                 <span class="dType">${ela.getNsDataType().replaceAll("null:(.*)","&lt;$1&gt;")}</span>
                                 <c:set var="done" value="true"/>
                             </c:if>
@@ -35,7 +35,7 @@
                         <div class="toMultiLine <c:if test='${ela.getLang() != null && !ela.getLang().equals("")}'> lang ${ela.getLang()}"
                              data-lang="${ela.getLang()}</c:if>">
                             <div class="fixed">
-                                <c:if test='${ela.getDataType()!=null && !ela.getDataType().equals("")}'>
+                                <c:if test='${ela.getDataType()!=null && !ela.getDataType().equals("") && !ela.getDataType().toLowerCase().contains("string")}'>
                                     <span class="dType">${ela.getNsDataType().replaceAll("null:(.*)","&lt;$1&gt;")}</span>
                                 </c:if>
                                     ${ela.getValue()}&#160;

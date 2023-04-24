@@ -28,7 +28,7 @@ dependencies {
 
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 
-    implementation 'org.apache.jena:apache-jena-libs:4.7.0'
+    implementation 'org.apache.jena:apache-jena-libs:4.8.0'
     constraints {
         implementation ('com.google.protobuf:protobuf-java:3.22.0') {
             because 'previous versions have security bugs'

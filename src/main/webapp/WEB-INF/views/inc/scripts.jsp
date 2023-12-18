@@ -382,7 +382,7 @@
                         $('.lang', cnt).each(function () {
                             var lang = $(this).attr("data-lang");
                             if ($.trim(lang) && cnt.find("span.clang." + lang).length == 0) {
-                                var clang = $("<span class=\"clang " + lang + "\">" + lang + "</span>");
+                                var clang = $("<span aria-label= \"change language in " + lang + "\" class=\"clang " + lang + "\">" + lang + "</span>");
                                 clang.click(function () {
                                     var lang = $(this).text();
                                     $(this).parent().children('div').hide();

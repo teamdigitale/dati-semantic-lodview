@@ -1,7 +1,7 @@
 <%@page session="true" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html version="XHTML+RDFa 1.1">
+<html lang="it" version="XHTML+RDFa 1.1">
 <head data-color="${colorPair}" profile="http://www.w3.org/1999/xhtml/vocab">
     <title>LodView &mdash; error ${statusCode}</title>
     <jsp:include page="inc/header.jsp"></jsp:include>

@@ -1,7 +1,8 @@
 <%@page session="true" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<html lang="it">
+    <h1 tabindex="-1" id="mainskip"><span></span></h1>
 <head data-color="${colorPair}">
     <title>${results.getTitle()}&mdash;LodView</title>
     <jsp:include page="inc/header.jsp"></jsp:include>

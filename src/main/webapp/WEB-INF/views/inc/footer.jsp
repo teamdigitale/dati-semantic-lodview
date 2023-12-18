@@ -3,7 +3,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <footer style="min-height: 176px">
     <div id="download">
-        <a href="http://lodview.it" id="linkBack"></a>
+        <a href="http://lodview.it" id="linkBack" aria-label="Logo di LodView" alt="Logo di LodView"></a>
         <a href="https://github.com/dvcama/LodView" id="linkGit" target="_blank"
            title="based on LodView v1.2.1-SNAPSHOT"><sp:message code='footer.download'
                                                                 text='download lodview to publish your data'/></a>

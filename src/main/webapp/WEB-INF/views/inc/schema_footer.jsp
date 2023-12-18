@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <footer id="footer" tabindex="-1" style="padding-bottom: 0; padding-left: 0; padding-right: 0">
+    <h1 tabindex="-1" id="footerskip"><span></span></h1>
     <div class="container-fluid px-5" style="margin-bottom: 24px;">
         <div class="row footer_logoteam">
             <div class="footer_logo_img"><a aria-label="Vai al sito del pnrr" href="https://ec.europa.eu/info/index_it">

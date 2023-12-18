@@ -1,7 +1,7 @@
 <%@page session="true" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html version="XHTML+RDFa 1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<html lang="it" version="XHTML+RDFa 1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
 <head data-color="${colorPair}" profile="http://www.w3.org/1999/xhtml/vocab">
     <title>${results.getTitle()} &mdash; LodView</title>
@@ -16,19 +16,20 @@
                 <a class="iri pad-30" href="${results.getMainIRI()}">${results.getMainIRI()}</a> <span class="istance"> <c:forEach
                     end="0" items='${results.getResources(results.getMainIRI()).get(results.getTypeProperty())}'
                     var="el">
-							<a title="&lt;${el.getValue()}&gt;" href="${el.getUrl()}"
-                               <c:if test="${!el.isLocal()}">target="_blank" </c:if>> <c:choose>
-									<c:when test='${el.getNsValue().startsWith("null:")}'>&lt;${el.getValue().replaceAll("([#/])([^#/]+)$","$1<span>$2")}</span>&gt;
-                </c:when>
-                <c:otherwise>
-                    <span class="pad-30"> <span class="istanceOf">
-                        <sp:message code='label.anEntityOfType' text='an entity of type'/>:
-                    </span> ${el.getNsValue().replaceAll(".+:","<span>")}
-                    </span>
-                    </span>
-                </c:otherwise>
-                </c:choose>
-                </a>
+                    <label aria-label='the link opens on another page' ><a  title="&lt;${el.getValue()}&gt;" href="${el.getUrl()}"
+                        <c:if test="${!el.isLocal()}">target="_blank" </c:if>> <c:choose>
+                             <c:when test='${el.getNsValue().startsWith("null:")}'>&lt;${el.getValue().replaceAll("([#/])([^#/]+)$","$1<span>$2")}</span>&gt;
+         </c:when>
+         <c:otherwise>
+             <span class="pad-30"> <span class="istanceOf">
+                 <sp:message code='label.anEntityOfType' text='an entity of type'/>:
+             </span> ${el.getNsValue().replaceAll(".+:","<span>")}
+             </span>
+             </span>
+         </c:otherwise>
+         </c:choose>
+         </a></label>
+							
                 </c:forEach>
                 </span>
                 <!--<div id="seeOnLodlive" class="sp">
@@ -38,7 +39,7 @@
         </hgroup>
         <c:choose>
             <c:when test="${results.getDescriptionProperty() != null}">
-                <div id="abstract">
+                <div id="abstract" aria-label="A description of the subject resource">
                     <label class="c1"><a data-label="${results.getDescriptionProperty().getLabel()}"
                                          data-comment="${results.getDescriptionProperty().getComment()}"
                                          href="${results.getDescriptionProperty().getPropertyUrl()}"> <c:choose>

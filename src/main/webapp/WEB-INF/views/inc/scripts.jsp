@@ -429,7 +429,7 @@
                 if (act === 'init') {
                     $('[data-label]').each(function () {
                         if ($(this).attr('data-label')) {
-                            var iph = $('<span class="iph"></span>');
+                            var iph = $('<span  class="iph" aria-label="' +  $(this).attr('data-comment') + '"></span>');
                             $(this).before(iph);
                             $(this).parent().hover(function () {
                                 l.infoTooltip('showInfoPoint', $(this));
@@ -463,7 +463,7 @@
                     });
                 } else if (act === 'show') {
                     var data = obj.children('[data-label]');
-                    var t = $('<div class="lv-tooltip" style="display:block;visibility:hidden"><strong>' + data.attr("data-label") + '</strong>' + (data.attr("data-comment") ? '<br />' + data.attr("data-comment") : '') + '</div>');
+                    var t = $('<div class="lv-tooltip"  style="display:block;visibility:hidden"><strong>' + data.attr("data-comment") + '</strong>' + (data.attr("data-comment") ? '<br />' + data.attr("data-comment") : '') + '</div>');
                     obj.prepend(t);
                     var th = obj.position().top - $(window).scrollTop() + t.height();
                     var wh = window.innerHeight - 50;
@@ -528,7 +528,7 @@
                                 // TODO: add link!
                                 msg = msg.replace(/\{0\}/, "<a data-comment=\"" + $(this).attr("propertycomment") + "\"  data-label=\"" + $(this).attr("propertylabel") + "\" title=\"&lt;" + $(this).attr("about") + "&gt;\">" + IRI);
 
-                                var el = $("<label class=\"c1\" title=\"" + $(this).attr("about") + "\">" + msg + "</label>");
+                                var el = $("<label aria-label=\"" + msg + "\" class=\"c1\" title=\"" + $(this).attr("about") + "\">" + msg + "</label>");
                                 var anchor = $("<a href=\"#openIt\" data-property=\"" + $(this).attr("about") + "\">" + count + " " + (count == 1 ? "<sp:message code='label.resource' text='resource' javaScriptEscape='true'/>" : "<sp:message code='label.resources' text='resources' javaScriptEscape='true'/>") + "</a>");
                                 anchor.click(function () {
                                     if (anchor.parent().hasClass('isOpened')) {

@@ -184,7 +184,7 @@
     </c:choose>
     <c:set var="c1name" value="c1" scope="page"></c:set>
     <c:set var="c2name" value="c2" scope="page"></c:set>
-    <div id="inverses" class="empty"></div>
+    <div id="inverses" lang="eng" class="empty"></div>
     <div id="lodCloud">
         <h3>
             <sp:message code='title.lodCloud' text='data from the linked data cloud'/>

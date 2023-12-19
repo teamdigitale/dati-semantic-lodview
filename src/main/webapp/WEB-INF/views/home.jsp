@@ -35,7 +35,7 @@
 
     </div>
 
-    <div id="inverses" lang="eng" class="empty"></div>
+    <div id="inverses" lang="en" class="empty"></div>
     <jsp:include page="inc/custom_footer.jsp"></jsp:include>
 </article>
 <jsp:include page="inc/footer.jsp"></jsp:include>

@@ -62,7 +62,7 @@
             </a></div>
         </div>
     </div>
-    <div class="FooterLinks_footerLinks__xS5Xy" role="contentinfo">
+    <div class="FooterLinks_footerLinks__xS5Xy">
         <div class="container-fluid px-5" style="background-color: #00264d !important; color: white">
             <div class="row mx-0 my-0 pt-3 align-items-center">
                 <p class=" pr-5">

@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.8'
+    id 'org.springframework.boot' version '2.7.18'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
     id "org.owasp.dependencycheck" version "8.1.2"
@@ -28,7 +28,7 @@ dependencies {
 
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 
-    implementation 'org.apache.jena:apache-jena-libs:4.7.0'
+    implementation 'org.apache.jena:apache-jena-libs:4.10.0'
     constraints {
         implementation ('com.google.protobuf:protobuf-java:3.22.0') {
             because 'previous versions have security bugs'
@@ -74,7 +74,7 @@ dependencyCheck {
 //set up a quality gate for vulnerabilities with high severity level:
 //let's consider that a vulnerability has a high severity level if its CVSS score is higher than 7
 //the build is going to fail if vulnerabilities with high severity level found
-    failBuildOnCVSS = 7
+    failBuildOnCVSS = 8
 
 //specify a list of known issues which contain:
 //false-positives

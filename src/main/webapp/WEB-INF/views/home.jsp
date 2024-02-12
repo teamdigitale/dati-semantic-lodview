@@ -1,7 +1,8 @@
 <%@page session="true" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<html lang="it">
+    <h1 tabindex="-1" id="mainskip"><span></span></h1>
 <head data-color="${colorPair}">
     <title>${results.getTitle()}&mdash;LodView</title>
     <jsp:include page="inc/header.jsp"></jsp:include>
@@ -34,7 +35,7 @@
 
     </div>
 
-    <div id="inverses" class="empty"></div>
+    <div id="inverses" lang="en" class="empty"></div>
     <jsp:include page="inc/custom_footer.jsp"></jsp:include>
 </article>
 <jsp:include page="inc/footer.jsp"></jsp:include>

@@ -34,6 +34,29 @@ a {
     position: static;
 }
 
+.skip-link:focus {
+    outline: transparent solid 2px;
+  }
+  
+  .skip-link {
+    display: inline-block;
+    padding: .375rem .75rem;
+    line-height: 1;
+    font-size: 1.25rem;
+    /* background-color: black; */
+    color: white;
+  }
+  
+  .skip-link:not(:focus) {
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    /* display: none; */
+    white-space: nowrap;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+  }
+
 body {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;

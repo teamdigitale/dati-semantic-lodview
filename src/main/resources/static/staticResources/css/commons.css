@@ -18,6 +18,20 @@ div#logoBanner div#logo {
 
 a {
     text-decoration: none;
+} 
+
+.skiplinks{
+    background-color: #0073e6 !important;
+}
+
+.skiplinks a {
+    color: white !important;
+    position: absolute;
+    left: -9999px;
+}
+
+.skiplinks a:focus {
+    position: static;
 }
 
 .skip-link:focus {

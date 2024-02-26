@@ -1,5 +1,7 @@
-<a href="#mainskip" class="skip-link">Skip to main</a>
-<a href="#footerskip" class="skip-link">Skip to footer</a>
+<div class="skiplinks">
+    <a class="visually-hidden" href="#mainskip">Skip to main</a>
+    <a class="visually-hidden" href="#footerskip">Skip to footer</a>
+  </div>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
         <div class="it-header-wrapper" tabindex="-1">

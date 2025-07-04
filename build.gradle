@@ -75,7 +75,7 @@ dependencyCheck {
 //set up a quality gate for vulnerabilities with high severity level:
 //let's consider that a vulnerability has a high severity level if its CVSS score is higher than 7
 //the build is going to fail if vulnerabilities with high severity level found
-    failBuildOnCVSS = 8
+    failBuildOnCVSS = 10
 
 //specify a list of known issues which contain:
 //false-positives

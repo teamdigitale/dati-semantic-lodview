@@ -37,6 +37,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/")
@@ -174,9 +175,11 @@ public class ResourceController {
         log.info("####################################################################");
         log.info("#################  looking for " + IRI + "  ################# ");
 
-        String[] acceptedContent = req.getHeader("Accept").split(",");
+        String[] acceptedContent = Optional.ofNullable(req.getHeader("Accept"))
+                .map(header -> header.split(","))
+                .orElse(new String[] { "text/html" });
         if (redirected) {
-            acceptedContent = "text/html".split(",");
+            acceptedContent = new String[] { "text/html" };
         }
         // log.trace("Accept " + req.getHeader("Accept"));
 

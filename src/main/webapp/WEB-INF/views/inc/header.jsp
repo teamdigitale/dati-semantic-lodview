@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="sp" %>
 <%@page session="true" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <link href="${conf.getStaticResourceURL()}style.css" rel="stylesheet" type="text/css"/>
 <script>
     document.write('<style type="text/css">');

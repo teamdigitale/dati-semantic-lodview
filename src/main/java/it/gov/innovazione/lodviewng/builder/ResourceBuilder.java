@@ -185,10 +185,9 @@ public class ResourceBuilder {
 
         List<TripleBean> triples = new ArrayList<>();
 
-        /*
-         * FIXME: make more distinct queries to avoid length limits, eg
-         * http://dati.camera.it/ocd/assemblea.rdf/a16
-         */
+        // KNOWN LIMITATION: very long IRIs with many abouts may hit SPARQL query length limits
+        // (e.g. http://dati.camera.it/ocd/assemblea.rdf/a16). Splitting into multiple queries
+        // would require refactoring the downstream result merging logic.
 
         StringBuilder filter = new StringBuilder();
         for (String titleProperty : filterProperties) {

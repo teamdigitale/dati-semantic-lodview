@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -356,7 +356,7 @@ public class ResourceController {
                 res.addHeader("Link", "<" + t.getProperty().getProperty() + ">; rel=\"type\"");
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            log.debug("no type property found for resource, skipping Link headers");
         }
     }
 

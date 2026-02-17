@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @Slf4j
@@ -22,7 +22,6 @@ public class ErrorController {
     public static final String COLOR_PAIR = "colorPair";
     private final ConfigurationBean conf;
 
-    /* TODO: change the handler to send "error" param to the client */
     @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE, reason = "unhandled encoding")
     @RequestMapping(value = "/406")
     public String error406(HttpServletResponse res, ModelMap model, @CookieValue(value = COLOR_PAIR) String colorPair) {

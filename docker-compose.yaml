@@ -10,7 +10,7 @@
 version: '3.9'
 services:
   dev:
-    image: openjdk:11-jdk-slim
+    image: eclipse-temurin:21-jdk-jammy
     volumes:
       - .:/code:z
     working_dir: /code

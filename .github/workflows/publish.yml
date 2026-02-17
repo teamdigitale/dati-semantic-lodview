@@ -4,8 +4,13 @@ on:
   workflow_dispatch:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - '*.md'
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - '*.md'
+
 env:
   GITHUB_WORKFLOW: dati-semantic-lodview
   REGISTRY: ghcr.io
@@ -13,41 +18,36 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        java-version: [11]
     steps:
       - name: checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java-version }}
-          distribution: 'adopt'
-      - name: caching
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Create Build Artifact
-        run: ./gradlew clean build
-      - name: SpotBugs Check
-        run: ./gradlew spotbugsMain spotbugsTest
+          java-version: 21
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Build and test
+        run: ./gradlew --no-daemon clean build
   # Dependency check is configured in the build.gradle file,
   #  which includes quality gates and suppression rules.
   owasp:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
-        uses: actions/checkout@v2
-      - name: Dependency Check
-        run: ./gradlew dependencyCheckAnalyze
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: OWASP Dependency Check
+        run: ./gradlew --no-daemon dependencyCheckAnalyze
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: docker-security
         uses: instrumenta/conftest-action@master
         with:
@@ -65,20 +65,20 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Log in to the Github Container registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]${GITHUB_REF##*/}"
+        run: echo "branch=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
         id: extract_branch
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           labels: |
@@ -88,7 +88,7 @@ jobs:
             type=raw,value={{date 'YYYYMMDD'}}-${{github.run_number}}-{{sha}}
             type=raw, value=latest
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
@@ -106,13 +106,13 @@ jobs:
       - publish
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: build image
         id: extractImage
         run: |
           IMAGE="$REGISTRY/$IMAGE_NAME"
           TAG="$(date +'%Y%m%d')-${{github.run_number}}-$(git rev-parse --short HEAD)"
-          echo "##[set-output name=imageName;]${IMAGE}:${TAG}"
+          echo "imageName=${IMAGE}:${TAG}" >> $GITHUB_OUTPUT
       - uses: convictional/trigger-workflow-and-wait@v1.3.0
         with:
           owner: teamdigitale
@@ -121,4 +121,4 @@ jobs:
           workflow_file_name: update-config.yaml
           ref: dev
           wait_interval: 20
-          inputs: '{"serviceName": "dati-semantic-lodview", "imageWithNewTag": "${{ steps.extractImage.outputs.imageName }}"}'
+          inputs: '{"serviceName": "${{ env.GITHUB_WORKFLOW }}", "imageWithNewTag": "${{ steps.extractImage.outputs.imageName }}"}'

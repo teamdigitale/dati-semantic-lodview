@@ -36,7 +36,6 @@ public class SPARQLEndPoint {
         this.locale = locale;
         this.ontoBean = ontoBean;
         this.conf = conf;
-        // TODO Auto-generated constructor stub
     }
 
     public List<TripleBean> doQuery(String IRI, String aProperty, int start, List<String> queries, String filter, String overrideProperty) throws Exception {

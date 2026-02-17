@@ -1,15 +1,15 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.18'
-    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.springframework.boot' version '3.5.10'
+    id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
-    id "org.owasp.dependencycheck" version "8.1.2"
-    id 'com.github.spotbugs' version '5.0.13'
+    id 'org.owasp.dependencycheck' version '12.1.3'
+    id 'com.github.spotbugs' version '6.1.2'
     id 'war'
 }
 
 group = 'it.gov.innovazione'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '21'
 
 configurations {
     compileOnly {
@@ -30,22 +30,27 @@ dependencies {
 
     implementation 'org.apache.jena:apache-jena-libs:4.10.0'
     constraints {
-        implementation ('com.google.protobuf:protobuf-java:3.22.0') {
-            because 'previous versions have security bugs'
+        implementation('com.google.protobuf:protobuf-java:3.25.5') {
+            because 'CVE-2024-7254 — DoS via StackOverflow in recursive unknown fields parsing'
+        }
+        implementation('org.apache.commons:commons-lang3:3.18.0') {
+            because 'CVE-2025-48924 — StackOverflow in ClassUtils.getClass on long inputs'
         }
     }
 
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-    implementation 'org.apache.commons:commons-text:1.10.0'
-    implementation 'org.apache.commons:commons-compress:1.26.0'
-    implementation group: 'org.springframework', name: 'spring-web', version: '5.3.32'
-    implementation 'org.apache.taglibs:taglibs-standard-spec:1.2.5'
-    implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
-    implementation 'org.apache.taglibs:taglibs-standard-jstlel:1.2.5'
+    implementation 'org.apache.commons:commons-text:1.13.0'
+    implementation 'org.apache.commons:commons-compress:1.27.1'
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.2'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+spotbugs {
+    toolVersion = '4.8.6'
 }
 
 spotbugsMain {
@@ -53,8 +58,8 @@ spotbugsMain {
 
     reports {
         html {
-            enabled = true
-            destination = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+            required = true
+            outputLocation = file("${layout.buildDirectory.get()}/reports/spotbugs/main/spotbugs.html")
         }
     }
 }
@@ -63,37 +68,35 @@ spotbugsTest {
     excludeFilter = file("${rootProject.projectDir}/config/spotbugs/exclude-filter.xml")
     reports {
         html {
-            enabled = true
-            destination = file("$buildDir/reports/spotbugs/test/spotbugs.html")
+            required = true
+            outputLocation = file("${layout.buildDirectory.get()}/reports/spotbugs/test/spotbugs.html")
         }
     }
 }
 
 dependencyCheck {
-    skipConfigurations = ['spotbugs']
-
-//set up a quality gate for vulnerabilities with high severity level:
-//let's consider that a vulnerability has a high severity level if its CVSS score is higher than 7
-//the build is going to fail if vulnerabilities with high severity level found
-    failBuildOnCVSS = 10
-
-//specify a list of known issues which contain:
-//false-positives
-//confirmed vulnerabilities which are not fixed yet, but we have a ticket for that
-    suppressionFile = 'config/dependency-check/dependency-check-known-issues.xml'
+    nvd {
+        datafeedUrl = "https://dependency-check.github.io/DependencyCheck_Builder/nvd_cache"
+        validForHours = 24
+    }
+    failOnError = false
+    failBuildOnCVSS = 7
+    analyzers {
+        assemblyEnabled = false
+        ossIndexEnabled = false
+    }
+    suppressionFile = "${rootProject.projectDir}/config/dependency-check/dependency-check-known-issues.xml"
 }
 
 gradle.taskGraph.whenReady { graph ->
     if (graph.hasTask(build)) {
-        spotbugsMain.enabled = false
         dependencyCheckAnalyze.enabled = false
-        spotbugsTest.enabled = false
     }
 }
 
 bootWar {
     enabled = true
-    archiveName("lodview.war")
+    archiveFileName.set("lodview.war")
 }
 
 tasks.named('test') {

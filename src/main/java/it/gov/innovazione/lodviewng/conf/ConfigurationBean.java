@@ -13,7 +13,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
 import org.springframework.web.context.ServletContextAware;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

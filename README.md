@@ -1,85 +1,334 @@
-# LodView
-LodView is a Java web application based on Spring and Jena, it's a tool able to offer a W3C standard compliant IRI dereferenciation. LodView, in conjunction with a SPARQL endpoint, allows you to publish RDF data according to all defined standards for Linked Open Data.
+# LodView (lodview-ng)
 
-LodView is easy to configure and deploy for any developer and it dramatically improves the end user’s experience in accessing HTML based representations of RDF resources.
+LodView è un'applicazione web Java basata su Spring Boot e Apache Jena che fornisce IRI dereferencing conforme W3C per la pubblicazione di dati RDF come Linked Open Data.
 
-## About us
-LodView (as [LodLive](https://github.com/dvcama/LodLive)) is ideated and maintained by Diego Valerio Camarda and Alessandro Antonuccio. [Diego](https://www.linkedin.com/in/dvcama) is the RDF guy behind the technology, and [Alessandro](http://hstudio.it) is the designer responsible for the interface and the UX.
+Questo fork ([teamdigitale/dati-semantic-lodview](https://github.com/teamdigitale/dati-semantic-lodview)) modernizza il progetto originale [LodLive/LodView](https://github.com/LodLive/LodView) portandolo a:
 
-## Why develop it (for free)
-We believe that the dereferencing layer has to be independent from the SPARQL endpoint implementation so during these last years we preferred using [Pubby](http://wifo5-03.informatik.uni-mannheim.de/pubby/) to other software for publishing our data. Probably you don't know this, but you already know Pubby, it is used to publish DBpedia data and a lot of other Linked Open Data out there. Sadly, it is pretty old and its development appears to have stopped, so we created LodView taking inspiration from some of the features in it we really appreciated.
+- **Java 21** (Eclipse Temurin)
+- **Spring Boot 3.x** con Tomcat embedded
+- **Gradle** come build system
+- Artifact eseguibile con `java -jar` (niente Tomcat esterno)
 
-LodView shares Pubby philosophy; the configuration approach (an RDF file) and the basic technologies (we also use Apache Jena) are very similar, both interfaces even look somewhat alike, but we have made some important improvements according to the [RDF 1.1 Standard](https://www.w3.org/TR/rdf11-concepts/). We have added new features and changed the ones we didn't like (such as the 303 redirection for HTML representation).
+> **Nota per chi usa la versione originale con Tomcat:** le versioni precedenti di LodView richiedevano il deploy di un file WAR su Apache Tomcat 9. Questo fork utilizza Spring Boot con Tomcat embedded: è sufficiente eseguire `java -jar lodview.war`. Il deploy su un application server esterno (Tomcat, Jetty, etc.) **non è supportato né consigliato**.
 
-While developing [LodLive](https://github.com/dvcama/LodLive), we realized that there was real need for a great interface to spread linked data principles even more effectively, so we spent time designing an interface for LodView that would be easy to use and beautiful to experience. LodView is free to use for all and we hope that the LOD community may appreciate and enjoy our brand new piece of work.
+---
 
-LodView is an open source software, you may download it and use for it your own data publication but it is also a web service (http://lodview.it) useful to browse any resource published using a SPARQL endpoint or published according to the rules of the web of data (aka content negotiation and RDF).
+## Prerequisiti
 
-## Demo
-You can find some examples on http://lodview.it.
+- Un endpoint SPARQL raggiungibile (es. Virtuoso, Fuseki, GraphDB)
+- Server Ubuntu 22.04+ (per installazione nativa) oppure Docker
 
-## Who is using it
-See [the list of known users](https://github.com/dvcama/LodView/wiki/LodView-users).
+---
 
-## Installation instruction
-See [the wiki page](https://github.com/dvcama/LodView/wiki).
+## Opzione 1: Docker (consigliata)
 
-## Some interesting features
-##### Content negotiation and serialization
-LodView allows you to publish RDF data offering a lot of different serializations. It handles content negotiation requests with or without 303 redirections: at the same IRI you can fully access different versions of the resource (HTML, turtle, n-triples, json, json-ld, and many more) or you can set a suffix useful to redirect some requests to an HTML representation of the resource (eg. `http://example.com/resource/aaaa/html`). You can also override content negotiation features adding the 'output' parameter to the URL and specifying which serialization format you want to access, e.g. `http://example.com?output=application/ld-json`).
+Le immagini ufficiali sono pubblicate su GitHub Container Registry. Questa è la modalità di installazione consigliata.
 
-From LodView v1.2.0 you can also use prefixes (e.g. `http://example.com/page/aaaa`) or set a full "Pubby compliant" redirection strategy (e.g. `http://example.com/page/aaaa`, `http://example.com/data/aaaa.ntriples`, etc.) to easily update to LodView but still offering the same URLs to the users.
+### 1.1 Installare Docker
 
-##### Internationalization and content language
-Available languages: English, Italian, French, Slovak, Galician and Dutch.
+```bash
+sudo apt update
+sudo apt install -y docker.io
+sudo systemctl enable docker
+sudo systemctl start docker
+```
 
-LodView interface uses a very few words (labels and system messages) all managed with a language configuration file. It's able to use the client locale to manage not only the interface language but also the RDF literal values for a full i18n experience. You also have the possibility to override your default locale using 'locale' parameter, e.g. `http://example.com?locale=fr`.
+### 1.2 Creare il file di environment
 
-We will appreciate any help in translating LodView, please commit your translation using GitHub or send us the [translation file](https://github.com/dvcama/LodView/blob/master/src/main/resources/messages_en.properties).
+Creare il file `lodview.env` e **personalizzare i valori** in base al proprio ambiente:
 
-Special thanks to Jana Ivanová for the Slovak translation, to Miguel Solla for the Galician translation and to Roland Cornelissen for the Dutch translation.
+```env
+# === SPARQL ENDPOINT (OBBLIGATORIO) ===
+# Inserire l'URL del proprio endpoint SPARQL (es. Virtuoso, Fuseki, GraphDB)
+LodViewendpoint=<URL_ENDPOINT_SPARQL_PUBBLICO>
+LodViewendpointInternal=<URL_ENDPOINT_SPARQL_INTERNO>
+LodViewendpointType=virtuoso
 
-##### Information about used properties
-LodView provides info about every property found in the resource, just hover on the property to get an "info tooltip" that shows label and comment from the referring ontology (according to the locale of the client). See also [how to populate info tooltip](https://github.com/dvcama/LodView/wiki/how-to%3A-populate-info-tooltip).
+# === NAMESPACE ===
+LodViewIRInamespace=<NAMESPACE_IRI_BASE>
 
-##### Object properties
-In order to help humans understand the meaning of a resource, LodView shows the label of every object property it has found according to the locale of the client.
+# === HOME PAGE ===
+LodViewhomeUrl=<URL_HOME_PAGE>
+LodViewhomeTitle=<TITOLO_HOME_PAGE>
+LodViewhomeDescription=<DESCRIZIONE_HOME_PAGE>
+LodViewhomeContent=<CONTENUTO_HOME_PAGE>
 
-##### Blank nodes management
-We don't like blank nodes, but they are used sometimes so we have managed them as an actual part of the resource; they contain information that doesn't belong to any other resource so LodView shows them in the main resource page nesting their values in sub-boxes which saves the user further clicks and contextualizes data more effectively.
+# === OPZIONALI ===
+LodViewhttpRedirectSuffix=
+LodViewpreferredLanguage=it
+LodViewpublicUrlPrefix=auto
+LodViewstaticResourceURL=auto
+LodViewforceIriEncoding=auto
+LodViewredirectionStrategy=
+LodViewdefaultInverseBehaviour=close
+LodViewauthUsername=
+LodViewauthPassword=
+LodViewlicense=
+```
 
-##### Inverse relations management
-Inverse relations are an interesting descriptive part of a resource. Very often inverse relations are as valuable and informative as direct relations, and sometimes there are too many of them to be shown all in one go on the HTML page. LodView collects the inverse resources showing them in collapsed boxes; it also provides information about the used inverse properties and the total count of elements that share them without transferring all the data at once but using light on-demand Ajax calls instead.
+> **Nota sulla rete Docker:** se l'endpoint SPARQL gira sullo stesso host del container, non è possibile usare `localhost` dall'interno del container. Usare `host.docker.internal` (Docker Desktop) oppure l'IP effettivo della macchina host. In alternativa, avviare il container con `--network host` (in tal caso il flag `-p` non è necessario).
 
-##### Colors and user experience
-LodView is beautiful and colorful: you can let it randomize the colors of the interface or set your own colors or even bind classes to specific colors to make all "people" orange and all "organizations" green.
+### 1.3 Avviare il container
 
-##### Resource widget
-LodView provides (and will provide) various widgets for displaying multimedia contents, thesaurus hierarchies, external connected resources and geographical information.
+```bash
+docker run -d \
+  --name lodview \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  --env-file lodview.env \
+  ghcr.io/teamdigitale/dati-semantic-lodview:latest
+```
 
-##### Image widget
-Easy access to the image referenced in a resource, e.g. [British museum](http://lodview.it/lodview/?IRI=http%3A%2F%2Fcollection.britishmuseum.org%2Fid%2Fobject%2FYCA62958&sparql=http%3A%2F%2Fcollection.britishmuseum.org%2Fsparql&prefix=http%3A%2F%2Fcollection.britishmuseum.org%2Fid%2Fobject%2F).
+Verificare:
 
-##### Video and audio widget
-Players for videos and even audio files are embedded in the resource page, e.g. [linked jazz](http://lodview.it/lodview/?IRI=http%3A%2F%2Flinkedjazz.org%2Fresource%2FMary_Lou_Williams&sparql=https%3A%2F%2Flinkedjazz.org%2Fsparql%2Fselect&prefix=http%3A%2F%2Flinkedjazz.org%2Fresource%2F).
+```bash
+docker logs lodview
+# L'applicazione è disponibile su http://localhost:8080
+```
 
-##### Linked LOD resources widget
-To make the context of the viewed resourced even more understandable and to prove the power of the linked data cloud, all connected resources (e.g. `sameAs`) are automatically shown with their title, an image or a map, and an abstract, e.g. [dati.camera](http://lodview.it/lodview/?IRI=http%3A%2F%2Fdati.camera.it%2Focd%2Fpersona.rdf%2Fp4230&sparql=http%3A%2F%2Fdati.camera.it%2Fsparql&prefix=http%3A%2F%2Fdati.camera.it%2Focd%2F).
+---
 
-##### Map representation widget
-Geographical information is shown as points on a map (thanks to the OSM project), e.g. [geonames](http://lodview.it/lodview/?IRI=http%3A%2F%2Fsws.geonames.org%2F6471849%2F&sparql=%3C%3E&prefix=http%3A%2F%2Fsws.geonames.org%2F).
+## Opzione 2: Installazione nativa con systemd
 
-**TODO**: manage shape representation.
+Questa modalità prevede il build dai sorgenti e l'avvio come servizio di sistema.
 
-##### Hierarchy widget
-**TODO**: develop a widget which is able to represent hierarchical relations (e.g. thesauri, family trees or taxonomies).
+### 2.1 Installare Java 21
 
-##### SPARQL URL handler
-Because we want the SPARQL endpoint URL to be easy to deduce from a resource's IRI, LodView manages calls to `http://data.yourdomain.com/sparql` redirecting clients to the SPARQL endpoint real URL or proxying it for an even easier access (proxy feature is still under development). This particular feature simplifies server configuration and supports client's discovery capabilities.
+```bash
+sudo apt update
+sudo apt install -y eclipse-temurin-21-jdk
+```
 
-##### LodLive integration
+Se il pacchetto non è disponibile, aggiungere il repository Adoptium:
 
-**TODO**: We want to integrate LodLive in the interface to avoid LodLive having to be open in a new page. The integration will provide an easy graph navigation model, very useful to better understand resource context and to move on to other resources without using standard hyperlinks.
+```bash
+sudo apt install -y wget apt-transport-https gpg
+wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo gpg --dearmor -o /usr/share/keyrings/adoptium.gpg
+echo "deb [signed-by=/usr/share/keyrings/adoptium.gpg] https://packages.adoptium.net/artifactory/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
+sudo apt update
+sudo apt install -y temurin-21-jdk
+```
 
-* * *
-contact information: info@lodlive.it
+Verificare:
+
+```bash
+java -version
+# openjdk version "21.x.x" ...
+```
+
+### 2.2 Scaricare i sorgenti e buildare
+
+```bash
+sudo useradd -r -s /usr/sbin/nologin lodview
+
+cd /opt
+sudo git clone https://github.com/teamdigitale/dati-semantic-lodview.git
+cd dati-semantic-lodview
+
+# Build senza test
+sudo ./gradlew clean build -x test
+
+# Copiare l'artifact nella directory di installazione
+sudo mkdir -p /opt/lodview
+sudo cp build/libs/lodview.war /opt/lodview/lodview.war
+sudo chown -R lodview:lodview /opt/lodview
+```
+
+**(Opzionale)** Rimuovere i sorgenti dopo il build per liberare spazio:
+
+```bash
+sudo rm -rf /opt/dati-semantic-lodview
+```
+
+### 2.3 Creare il file di environment
+
+Creare il file `/opt/lodview/lodview.env` e **personalizzare i valori** (il formato è lo stesso usato per Docker):
+
+```env
+# === SPARQL ENDPOINT (OBBLIGATORIO) ===
+# Inserire l'URL del proprio endpoint SPARQL (es. Virtuoso, Fuseki, GraphDB)
+LodViewendpoint=<URL_ENDPOINT_SPARQL_PUBBLICO>
+LodViewendpointInternal=<URL_ENDPOINT_SPARQL_INTERNO>
+LodViewendpointType=virtuoso
+
+# === NAMESPACE ===
+LodViewIRInamespace=<NAMESPACE_IRI_BASE>
+
+# === HOME PAGE ===
+LodViewhomeUrl=<URL_HOME_PAGE>
+LodViewhomeTitle=<TITOLO_HOME_PAGE>
+LodViewhomeDescription=<DESCRIZIONE_HOME_PAGE>
+LodViewhomeContent=<CONTENUTO_HOME_PAGE>
+
+# === OPZIONALI ===
+LodViewhttpRedirectSuffix=
+LodViewpreferredLanguage=it
+LodViewpublicUrlPrefix=auto
+LodViewstaticResourceURL=auto
+LodViewforceIriEncoding=auto
+LodViewredirectionStrategy=
+LodViewdefaultInverseBehaviour=close
+LodViewauthUsername=
+LodViewauthPassword=
+LodViewlicense=
+```
+
+> **Nota:** si usa un file di environment esterno anziché direttive `Environment=` inline nel file `.service`, perché diversi valori (titoli, descrizioni) contengono spazi e caratteri speciali che richiederebbero quoting complesso in systemd.
+
+### 2.4 Creare il file di servizio systemd
+
+Creare il file `/etc/systemd/system/lodview.service`:
+
+```ini
+[Unit]
+Description=LodView - Linked Data Browser
+After=network.target
+
+[Service]
+Type=simple
+User=lodview
+Group=lodview
+WorkingDirectory=/opt/lodview
+
+EnvironmentFile=/opt/lodview/lodview.env
+ExecStart=/usr/bin/java -jar /opt/lodview/lodview.war
+
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### 2.5 Avviare il servizio
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable lodview
+sudo systemctl start lodview
+
+# Verificare lo stato
+sudo systemctl status lodview
+
+# Il servizio è disponibile su http://localhost:8080
+```
+
+---
+
+## Variabili d'ambiente
+
+Le variabili d'ambiente sovrascrivono i valori definiti nel file `conf.ttl` interno all'applicazione. Il prefisso è `LodView` seguito dal nome della proprietà nel file di configurazione.
+
+| Variabile | Descrizione | Default |
+|---|---|---|
+| `LodViewendpoint` | URL dell'endpoint SPARQL pubblico | `http://localhost:8890/sparql` |
+| `LodViewendpointInternal` | URL dell'endpoint SPARQL interno (se diverso dal pubblico) | `http://localhost:8890/sparql` (da `conf.ttl`) |
+| `LodViewendpointType` | Tipo di endpoint (`virtuoso` o vuoto) | vuoto |
+| `LodViewIRInamespace` | Namespace IRI base | `https://w3id.org/italia` |
+| `LodViewhttpRedirectSuffix` | Suffisso per redirect HTTP 303 (es. `.html`) | `.html` |
+| `LodViewhomeUrl` | URL della home page | - |
+| `LodViewhomeTitle` | Titolo della home page | - |
+| `LodViewhomeDescription` | Descrizione della home page | - |
+| `LodViewhomeContent` | Contenuto testuale della home page | - |
+| `LodViewpreferredLanguage` | Lingua preferita (es. `it`, `en`) | `it` |
+| `LodViewpublicUrlPrefix` | Prefisso URL pubblico (`auto` per rilevamento automatico) | `auto` |
+| `LodViewstaticResourceURL` | URL risorse statiche (`auto` per rilevamento automatico) | `auto` |
+| `LodViewforceIriEncoding` | Gestione encoding IRI (`auto`, `decode`, `encode`) | `auto` |
+| `LodViewredirectionStrategy` | Strategia redirect (`pubby` o vuoto) | vuoto |
+| `LodViewdefaultInverseBehaviour` | Relazioni inverse: `open` o `close` | `close` |
+| `LodViewauthUsername` | Username per autenticazione endpoint SPARQL | vuoto |
+| `LodViewauthPassword` | Password per autenticazione endpoint SPARQL | vuoto |
+| `LodViewlicense` | Testo HTML della licenza (in fondo alla pagina) | vuoto |
+
+---
+
+## Nota per chi usa Apache HTTPD come reverse proxy
+
+Se si dispone già di un reverse proxy Apache HTTPD configurato per la versione precedente (Tomcat esterno), tenere presente che il modello architetturale è cambiato:
+
+- **Prima:** Apache parlava con un unico processo Tomcat su una singola porta, smistando le richieste per path (es. `/lodview`, `/lode`, `/webvowl`).
+- **Ora:** ogni visualizzatore è un processo Spring Boot autonomo in ascolto sulla propria porta locale.
+
+Tutte le applicazioni partono di default sulla porta **8080**. Se si eseguono più visualizzatori sulla stessa macchina, è necessario assegnare porte diverse tramite la variabile d'ambiente standard Spring Boot `SERVER_PORT`:
+
+| Applicazione | `SERVER_PORT` suggerita |
+|---|---|
+| LodView | `8080` (default) |
+| LODE | `8081` |
+| WebVOWL | `8082` |
+
+Aggiungere nel file `.env` di ciascuna applicazione (sia per Docker che per systemd):
+
+```env
+SERVER_PORT=8080
+```
+
+Per Docker, mappare di conseguenza: `-p 8080:8080`, `-p 8081:8081`, `-p 8082:8082`.
+
+Apache può continuare a fare reverse proxy, ma il backend non è più un unico Tomcat condiviso.
+
+### Virtual host dedicati
+
+Se si usa un dominio (o sottodominio) dedicato per ogni visualizzatore, la configurazione è minimale:
+
+```apache
+<VirtualHost *:443>
+    ServerName lodview.example.com
+
+    ProxyPass / http://localhost:8080/
+    ProxyPassReverse / http://localhost:8080/
+
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+
+    # ... configurazione SSL ...
+</VirtualHost>
+```
+
+### Path-based proxy (più visualizzatori sullo stesso dominio)
+
+Se si vogliono esporre più visualizzatori sotto path diversi dello stesso dominio (es. `example.com/lodview`, `example.com/lode`, `example.com/webvowl`), è necessario configurare per ciascuna applicazione:
+
+1. **`SERVER_PORT`** — una porta locale diversa per ogni visualizzatore (vedi tabella sopra)
+2. **`SERVER_SERVLET_CONTEXT_PATH`** — il sotto-path su cui l'applicazione deve servire
+
+Entrambe sono proprietà standard di Spring Boot, supportate da tutte e tre le applicazioni senza modifiche al codice.
+
+Esempio di file `.env` per LodView in modalità path-based:
+
+```env
+SERVER_PORT=8080
+SERVER_SERVLET_CONTEXT_PATH=/lodview
+```
+
+Configurazione Apache completa per tutti e tre i visualizzatori:
+
+```apache
+<VirtualHost *:443>
+    ServerName example.com
+
+    ProxyPass /lodview http://localhost:8080/lodview
+    ProxyPassReverse /lodview http://localhost:8080/lodview
+
+    ProxyPass /lode http://localhost:8081/lode
+    ProxyPassReverse /lode http://localhost:8081/lode
+
+    ProxyPass /webvowl http://localhost:8082/webvowl
+    ProxyPassReverse /webvowl http://localhost:8082/webvowl
+
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+
+    # ... configurazione SSL ...
+</VirtualHost>
+```
+
+> **Nota:** senza `SERVER_SERVLET_CONTEXT_PATH`, le applicazioni Spring Boot servono su `/` (root) e il path-based proxy non funzionerebbe correttamente. Senza `SERVER_PORT`, tutte le applicazioni tenterebbero di usare la porta 8080.
+
+---
+
+## Porte
+
+| Porta | Protocollo | Descrizione |
+|---|---|---|
+| 8080 | HTTP | Interfaccia web LodView (default, configurabile con `SERVER_PORT`) |

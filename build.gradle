@@ -11,6 +11,8 @@ group = 'it.gov.innovazione'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '21'
 
+ext['commons-lang3.version'] = '3.20.0'
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -32,9 +34,6 @@ dependencies {
     constraints {
         implementation('com.google.protobuf:protobuf-java:3.25.8') {
             because 'CVE-2024-7254, CVE-2026-0994 — DoS via StackOverflow in recursive unknown fields parsing'
-        }
-        implementation('org.apache.commons:commons-lang3:3.18.0') {
-            because 'CVE-2025-48924 — StackOverflow in ClassUtils.getClass on long inputs'
         }
     }
 

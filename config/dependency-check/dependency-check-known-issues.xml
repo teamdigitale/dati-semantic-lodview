@@ -20,6 +20,14 @@
         <cve>CVE-2025-68161</cve>
     </suppress>
 
+    <!-- protobuf-java 3.25.x DoS via crafted messages.
+         Fix only available in 4.x line; Jena 4.10.0 requires 3.x.
+         LodView does not process untrusted protobuf input (only SPARQL/RDF). -->
+    <suppress>
+        <notes><![CDATA[protobuf-java DoS — not exploitable: LodView does not process untrusted protobuf messages]]></notes>
+        <cve>CVE-2026-0994</cve>
+    </suppress>
+
     <!-- jQuery 1.12.4 bundled in static resources. Upgrade to 3.x deferred to future session
          (requires testing all JSP templates and JavaScript interactions). -->
     <suppress>

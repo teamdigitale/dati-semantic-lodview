@@ -1,30 +1,30 @@
 # LodView (lodview-ng)
 
-LodView è un'applicazione web Java basata su Spring Boot e Apache Jena che fornisce IRI dereferencing conforme W3C per la pubblicazione di dati RDF come Linked Open Data.
+LodView is a Java web application based on Spring Boot and Apache Jena that provides W3C-compliant IRI dereferencing for publishing RDF data as Linked Open Data.
 
-Questo fork ([teamdigitale/dati-semantic-lodview](https://github.com/teamdigitale/dati-semantic-lodview)) modernizza il progetto originale [LodLive/LodView](https://github.com/LodLive/LodView) portandolo a:
+This fork ([teamdigitale/dati-semantic-lodview](https://github.com/teamdigitale/dati-semantic-lodview)) modernizes the upstream project [LodLive/LodView](https://github.com/LodLive/LodView) by porting it to:
 
 - **Java 21** (Eclipse Temurin)
-- **Spring Boot 3.x** con Tomcat embedded
-- **Gradle** come build system
-- Artifact eseguibile con `java -jar` (niente Tomcat esterno)
+- **Spring Boot 3.x** with embedded Tomcat
+- **Gradle** as the build system
+- An executable artifact runnable with `java -jar` (no external Tomcat required)
 
-> **Nota per chi usa la versione originale con Tomcat:** le versioni precedenti di LodView richiedevano il deploy di un file WAR su Apache Tomcat 9. Questo fork utilizza Spring Boot con Tomcat embedded: è sufficiente eseguire `java -jar lodview.war`. Il deploy su un application server esterno (Tomcat, Jetty, etc.) **non è supportato né consigliato**.
-
----
-
-## Prerequisiti
-
-- Un endpoint SPARQL raggiungibile (es. Virtuoso, Fuseki, GraphDB)
-- Server Ubuntu 22.04+ (per installazione nativa) oppure Docker
+> **Note for users of the upstream version with Tomcat:** previous LodView releases required deploying a WAR file onto Apache Tomcat 9. This fork uses Spring Boot with embedded Tomcat: running `java -jar lodview.war` is enough. Deployment to an external application server (Tomcat, Jetty, etc.) is **not supported nor recommended**.
 
 ---
 
-## Opzione 1: Docker (consigliata)
+## Prerequisites
 
-Le immagini ufficiali sono pubblicate su GitHub Container Registry. Questa è la modalità di installazione consigliata.
+- A reachable SPARQL endpoint (e.g. Virtuoso, Fuseki, GraphDB)
+- Ubuntu 22.04+ (for native installation) or Docker
 
-### 1.1 Installare Docker
+---
+
+## Option 1: Docker (recommended)
+
+Official images are published on GitHub Container Registry. This is the recommended installation mode.
+
+### 1.1 Install Docker
 
 ```bash
 sudo apt update
@@ -33,27 +33,27 @@ sudo systemctl enable docker
 sudo systemctl start docker
 ```
 
-### 1.2 Creare il file di environment
+### 1.2 Create the environment file
 
-Creare il file `lodview.env` e **personalizzare i valori** in base al proprio ambiente:
+Create a `lodview.env` file and **customize the values** for your environment:
 
 ```env
-# === SPARQL ENDPOINT (OBBLIGATORIO) ===
-# Inserire l'URL del proprio endpoint SPARQL (es. Virtuoso, Fuseki, GraphDB)
-LodViewendpoint=<URL_ENDPOINT_SPARQL_PUBBLICO>
-LodViewendpointInternal=<URL_ENDPOINT_SPARQL_INTERNO>
+# === SPARQL ENDPOINT (REQUIRED) ===
+# Set the URL of your SPARQL endpoint (e.g. Virtuoso, Fuseki, GraphDB)
+LodViewendpoint=<PUBLIC_SPARQL_ENDPOINT_URL>
+LodViewendpointInternal=<INTERNAL_SPARQL_ENDPOINT_URL>
 LodViewendpointType=virtuoso
 
 # === NAMESPACE ===
-LodViewIRInamespace=<NAMESPACE_IRI_BASE>
+LodViewIRInamespace=<BASE_IRI_NAMESPACE>
 
 # === HOME PAGE ===
-LodViewhomeUrl=<URL_HOME_PAGE>
-LodViewhomeTitle=<TITOLO_HOME_PAGE>
-LodViewhomeDescription=<DESCRIZIONE_HOME_PAGE>
-LodViewhomeContent=<CONTENUTO_HOME_PAGE>
+LodViewhomeUrl=<HOME_PAGE_URL>
+LodViewhomeTitle=<HOME_PAGE_TITLE>
+LodViewhomeDescription=<HOME_PAGE_DESCRIPTION>
+LodViewhomeContent=<HOME_PAGE_CONTENT>
 
-# === OPZIONALI ===
+# === OPTIONAL ===
 LodViewhttpRedirectSuffix=
 LodViewpreferredLanguage=it
 LodViewpublicUrlPrefix=auto
@@ -66,9 +66,9 @@ LodViewauthPassword=
 LodViewlicense=
 ```
 
-> **Nota sulla rete Docker:** se l'endpoint SPARQL gira sullo stesso host del container, non è possibile usare `localhost` dall'interno del container. Usare `host.docker.internal` (Docker Desktop) oppure l'IP effettivo della macchina host. In alternativa, avviare il container con `--network host` (in tal caso il flag `-p` non è necessario).
+> **Note on Docker networking:** if the SPARQL endpoint runs on the same host as the container, you cannot use `localhost` from inside the container. Use `host.docker.internal` (Docker Desktop) or the actual host machine IP. Alternatively, start the container with `--network host` (in that case the `-p` flag is not needed).
 
-### 1.3 Avviare il container
+### 1.3 Start the container
 
 ```bash
 docker run -d \
@@ -79,27 +79,27 @@ docker run -d \
   ghcr.io/teamdigitale/dati-semantic-lodview:latest
 ```
 
-Verificare:
+Verify:
 
 ```bash
 docker logs lodview
-# L'applicazione è disponibile su http://localhost:8080
+# The application is available on http://localhost:8080
 ```
 
 ---
 
-## Opzione 2: Installazione nativa con systemd
+## Option 2: Native installation with systemd
 
-Questa modalità prevede il build dai sorgenti e l'avvio come servizio di sistema.
+This mode builds from source and runs the service as a system service.
 
-### 2.1 Installare Java 21
+### 2.1 Install Java 21
 
 ```bash
 sudo apt update
 sudo apt install -y eclipse-temurin-21-jdk
 ```
 
-Se il pacchetto non è disponibile, aggiungere il repository Adoptium:
+If the package is not available, add the Adoptium repository:
 
 ```bash
 sudo apt install -y wget apt-transport-https gpg
@@ -109,14 +109,14 @@ sudo apt update
 sudo apt install -y temurin-21-jdk
 ```
 
-Verificare:
+Verify:
 
 ```bash
 java -version
 # openjdk version "21.x.x" ...
 ```
 
-### 2.2 Scaricare i sorgenti e buildare
+### 2.2 Fetch the sources and build
 
 ```bash
 sudo useradd -r -s /usr/sbin/nologin lodview
@@ -125,42 +125,42 @@ cd /opt
 sudo git clone https://github.com/teamdigitale/dati-semantic-lodview.git
 cd dati-semantic-lodview
 
-# Build senza test
+# Build without tests
 sudo ./gradlew clean build -x test
 
-# Copiare l'artifact nella directory di installazione
+# Copy the artifact to the installation directory
 sudo mkdir -p /opt/lodview
 sudo cp build/libs/lodview.war /opt/lodview/lodview.war
 sudo chown -R lodview:lodview /opt/lodview
 ```
 
-**(Opzionale)** Rimuovere i sorgenti dopo il build per liberare spazio:
+**(Optional)** Remove the sources after the build to save space:
 
 ```bash
 sudo rm -rf /opt/dati-semantic-lodview
 ```
 
-### 2.3 Creare il file di environment
+### 2.3 Create the environment file
 
-Creare il file `/opt/lodview/lodview.env` e **personalizzare i valori** (il formato è lo stesso usato per Docker):
+Create `/opt/lodview/lodview.env` and **customize the values** (same format as for Docker):
 
 ```env
-# === SPARQL ENDPOINT (OBBLIGATORIO) ===
-# Inserire l'URL del proprio endpoint SPARQL (es. Virtuoso, Fuseki, GraphDB)
-LodViewendpoint=<URL_ENDPOINT_SPARQL_PUBBLICO>
-LodViewendpointInternal=<URL_ENDPOINT_SPARQL_INTERNO>
+# === SPARQL ENDPOINT (REQUIRED) ===
+# Set the URL of your SPARQL endpoint (e.g. Virtuoso, Fuseki, GraphDB)
+LodViewendpoint=<PUBLIC_SPARQL_ENDPOINT_URL>
+LodViewendpointInternal=<INTERNAL_SPARQL_ENDPOINT_URL>
 LodViewendpointType=virtuoso
 
 # === NAMESPACE ===
-LodViewIRInamespace=<NAMESPACE_IRI_BASE>
+LodViewIRInamespace=<BASE_IRI_NAMESPACE>
 
 # === HOME PAGE ===
-LodViewhomeUrl=<URL_HOME_PAGE>
-LodViewhomeTitle=<TITOLO_HOME_PAGE>
-LodViewhomeDescription=<DESCRIZIONE_HOME_PAGE>
-LodViewhomeContent=<CONTENUTO_HOME_PAGE>
+LodViewhomeUrl=<HOME_PAGE_URL>
+LodViewhomeTitle=<HOME_PAGE_TITLE>
+LodViewhomeDescription=<HOME_PAGE_DESCRIPTION>
+LodViewhomeContent=<HOME_PAGE_CONTENT>
 
-# === OPZIONALI ===
+# === OPTIONAL ===
 LodViewhttpRedirectSuffix=
 LodViewpreferredLanguage=it
 LodViewpublicUrlPrefix=auto
@@ -173,11 +173,11 @@ LodViewauthPassword=
 LodViewlicense=
 ```
 
-> **Nota:** si usa un file di environment esterno anziché direttive `Environment=` inline nel file `.service`, perché diversi valori (titoli, descrizioni) contengono spazi e caratteri speciali che richiederebbero quoting complesso in systemd.
+> **Note:** an external environment file is used instead of inline `Environment=` directives in the `.service` unit because several values (titles, descriptions) contain spaces and special characters that would require complex quoting under systemd.
 
-### 2.4 Creare il file di servizio systemd
+### 2.4 Create the systemd unit file
 
-Creare il file `/etc/systemd/system/lodview.service`:
+Create `/etc/systemd/system/lodview.service`:
 
 ```ini
 [Unit]
@@ -200,76 +200,76 @@ RestartSec=10
 WantedBy=multi-user.target
 ```
 
-### 2.5 Avviare il servizio
+### 2.5 Start the service
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable lodview
 sudo systemctl start lodview
 
-# Verificare lo stato
+# Check status
 sudo systemctl status lodview
 
-# Il servizio è disponibile su http://localhost:8080
+# The service is available on http://localhost:8080
 ```
 
 ---
 
-## Variabili d'ambiente
+## Environment variables
 
-Le variabili d'ambiente sovrascrivono i valori definiti nel file `conf.ttl` interno all'applicazione. Il prefisso è `LodView` seguito dal nome della proprietà nel file di configurazione.
+The environment variables override the values defined in the bundled `conf.ttl` file. The prefix is `LodView` followed by the name of the configuration property.
 
-| Variabile | Descrizione | Default |
+| Variable | Description | Default |
 |---|---|---|
-| `LodViewendpoint` | URL dell'endpoint SPARQL pubblico | `http://localhost:8890/sparql` |
-| `LodViewendpointInternal` | URL dell'endpoint SPARQL interno (se diverso dal pubblico) | `http://localhost:8890/sparql` (da `conf.ttl`) |
-| `LodViewendpointType` | Tipo di endpoint (`virtuoso` o vuoto) | vuoto |
-| `LodViewIRInamespace` | Namespace IRI base | `https://w3id.org/italia` |
-| `LodViewhttpRedirectSuffix` | Suffisso per redirect HTTP 303 (es. `.html`) | `.html` |
-| `LodViewhomeUrl` | URL della home page | - |
-| `LodViewhomeTitle` | Titolo della home page | - |
-| `LodViewhomeDescription` | Descrizione della home page | - |
-| `LodViewhomeContent` | Contenuto testuale della home page | - |
-| `LodViewpreferredLanguage` | Lingua preferita (es. `it`, `en`) | `it` |
-| `LodViewpublicUrlPrefix` | Prefisso URL pubblico (`auto` per rilevamento automatico) | `auto` |
-| `LodViewstaticResourceURL` | URL risorse statiche (`auto` per rilevamento automatico) | `auto` |
-| `LodViewforceIriEncoding` | Gestione encoding IRI (`auto`, `decode`, `encode`) | `auto` |
-| `LodViewredirectionStrategy` | Strategia redirect (`pubby` o vuoto) | vuoto |
-| `LodViewdefaultInverseBehaviour` | Relazioni inverse: `open` o `close` | `close` |
-| `LodViewauthUsername` | Username per autenticazione endpoint SPARQL | vuoto |
-| `LodViewauthPassword` | Password per autenticazione endpoint SPARQL | vuoto |
-| `LodViewlicense` | Testo HTML della licenza (in fondo alla pagina) | vuoto |
+| `LodViewendpoint` | Public SPARQL endpoint URL | `http://localhost:8890/sparql` |
+| `LodViewendpointInternal` | Internal SPARQL endpoint URL (if different from the public one) | `http://localhost:8890/sparql` (from `conf.ttl`) |
+| `LodViewendpointType` | Endpoint type (`virtuoso` or empty) | empty |
+| `LodViewIRInamespace` | Base IRI namespace | `https://w3id.org/italia` |
+| `LodViewhttpRedirectSuffix` | HTTP 303 redirect suffix (e.g. `.html`) | `.html` |
+| `LodViewhomeUrl` | Home page URL | - |
+| `LodViewhomeTitle` | Home page title | - |
+| `LodViewhomeDescription` | Home page description | - |
+| `LodViewhomeContent` | Home page textual content | - |
+| `LodViewpreferredLanguage` | Preferred language (e.g. `it`, `en`) | `it` |
+| `LodViewpublicUrlPrefix` | Public URL prefix (`auto` for automatic detection) | `auto` |
+| `LodViewstaticResourceURL` | Static resources URL (`auto` for automatic detection) | `auto` |
+| `LodViewforceIriEncoding` | IRI encoding handling (`auto`, `decode`, `encode`) | `auto` |
+| `LodViewredirectionStrategy` | Redirect strategy (`pubby` or empty) | empty |
+| `LodViewdefaultInverseBehaviour` | Inverse relations: `open` or `close` | `close` |
+| `LodViewauthUsername` | Username for SPARQL endpoint authentication | empty |
+| `LodViewauthPassword` | Password for SPARQL endpoint authentication | empty |
+| `LodViewlicense` | License HTML text (shown at the bottom of the page) | empty |
 
 ---
 
-## Nota per chi usa Apache HTTPD come reverse proxy
+## Note for users of Apache HTTPD as a reverse proxy
 
-Se si dispone già di un reverse proxy Apache HTTPD configurato per la versione precedente (Tomcat esterno), tenere presente che il modello architetturale è cambiato:
+If you already have an Apache HTTPD reverse proxy configured for the previous version (external Tomcat), keep in mind that the architectural model has changed:
 
-- **Prima:** Apache parlava con un unico processo Tomcat su una singola porta, smistando le richieste per path (es. `/lodview`, `/lode`, `/webvowl`).
-- **Ora:** ogni visualizzatore è un processo Spring Boot autonomo in ascolto sulla propria porta locale.
+- **Before:** Apache talked to a single Tomcat process on a single port, routing requests by path (e.g. `/lodview`, `/lode`, `/webvowl`).
+- **Now:** each visualizer is an autonomous Spring Boot process listening on its own local port.
 
-Tutte le applicazioni partono di default sulla porta **8080**. Se si eseguono più visualizzatori sulla stessa macchina, è necessario assegnare porte diverse tramite la variabile d'ambiente standard Spring Boot `SERVER_PORT`:
+All applications start on port **8080** by default. If you run multiple visualizers on the same machine you need to assign different ports via the standard Spring Boot `SERVER_PORT` environment variable:
 
-| Applicazione | `SERVER_PORT` suggerita |
+| Application | Suggested `SERVER_PORT` |
 |---|---|
 | LodView | `8080` (default) |
 | LODE | `8081` |
 | WebVOWL | `8082` |
 
-Aggiungere nel file `.env` di ciascuna applicazione (sia per Docker che per systemd):
+Add the following to each application's `.env` file (both for Docker and systemd):
 
 ```env
 SERVER_PORT=8080
 ```
 
-Per Docker, mappare di conseguenza: `-p 8080:8080`, `-p 8081:8081`, `-p 8082:8082`.
+For Docker, map the ports accordingly: `-p 8080:8080`, `-p 8081:8081`, `-p 8082:8082`.
 
-Apache può continuare a fare reverse proxy, ma il backend non è più un unico Tomcat condiviso.
+Apache can keep acting as a reverse proxy, but the backend is no longer a single shared Tomcat.
 
-### Virtual host dedicati
+### Dedicated virtual hosts
 
-Se si usa un dominio (o sottodominio) dedicato per ogni visualizzatore, la configurazione è minimale:
+If you use a dedicated domain (or subdomain) for each visualizer, the configuration is minimal:
 
 ```apache
 <VirtualHost *:443>
@@ -281,27 +281,27 @@ Se si usa un dominio (o sottodominio) dedicato per ogni visualizzatore, la confi
     RequestHeader set X-Forwarded-Proto "https"
     RequestHeader set X-Forwarded-Port "443"
 
-    # ... configurazione SSL ...
+    # ... SSL configuration ...
 </VirtualHost>
 ```
 
-### Path-based proxy (più visualizzatori sullo stesso dominio)
+### Path-based proxy (multiple visualizers on the same domain)
 
-Se si vogliono esporre più visualizzatori sotto path diversi dello stesso dominio (es. `example.com/lodview`, `example.com/lode`, `example.com/webvowl`), è necessario configurare per ciascuna applicazione:
+If you want to expose multiple visualizers under different paths of the same domain (e.g. `example.com/lodview`, `example.com/lode`, `example.com/webvowl`), you need to configure for each application:
 
-1. **`SERVER_PORT`** — una porta locale diversa per ogni visualizzatore (vedi tabella sopra)
-2. **`SERVER_SERVLET_CONTEXT_PATH`** — il sotto-path su cui l'applicazione deve servire
+1. **`SERVER_PORT`** — a different local port for each visualizer (see table above)
+2. **`SERVER_SERVLET_CONTEXT_PATH`** — the sub-path on which the application must serve
 
-Entrambe sono proprietà standard di Spring Boot, supportate da tutte e tre le applicazioni senza modifiche al codice.
+Both are standard Spring Boot properties supported by all three applications without code changes.
 
-Esempio di file `.env` per LodView in modalità path-based:
+Example `.env` file for LodView in path-based mode:
 
 ```env
 SERVER_PORT=8080
 SERVER_SERVLET_CONTEXT_PATH=/lodview
 ```
 
-Configurazione Apache completa per tutti e tre i visualizzatori:
+Full Apache configuration for all three visualizers:
 
 ```apache
 <VirtualHost *:443>
@@ -319,16 +319,16 @@ Configurazione Apache completa per tutti e tre i visualizzatori:
     RequestHeader set X-Forwarded-Proto "https"
     RequestHeader set X-Forwarded-Port "443"
 
-    # ... configurazione SSL ...
+    # ... SSL configuration ...
 </VirtualHost>
 ```
 
-> **Nota:** senza `SERVER_SERVLET_CONTEXT_PATH`, le applicazioni Spring Boot servono su `/` (root) e il path-based proxy non funzionerebbe correttamente. Senza `SERVER_PORT`, tutte le applicazioni tenterebbero di usare la porta 8080.
+> **Note:** without `SERVER_SERVLET_CONTEXT_PATH`, Spring Boot applications serve on `/` (root) and the path-based proxy would not work correctly. Without `SERVER_PORT`, all applications would try to use port 8080.
 
 ---
 
-## Porte
+## Ports
 
-| Porta | Protocollo | Descrizione |
+| Port | Protocol | Description |
 |---|---|---|
-| 8080 | HTTP | Interfaccia web LodView (default, configurabile con `SERVER_PORT`) |
+| 8080 | HTTP | LodView web interface (default, configurable via `SERVER_PORT`) |

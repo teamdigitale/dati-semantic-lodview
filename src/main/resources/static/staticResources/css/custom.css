@@ -116,3 +116,63 @@ hgroup h2 {
 .bottomFooter:hover {
     color: #0bd9d2 !important;
 }
+
+/* ============================================================ */
+/* CUSTOM OVERRIDE - OTTIMIZZATO                                */
+/* ============================================================ */
+
+/* FIX: Nasconde il link di accessibilità 'Skip to main' (si vede solo col TAB) */
+.it-skiplink, .skip-link, .element-invisible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* 1. NOMI DELLE PROPRIETÀ (Colonna sinistra) */
+div#directs label a span, 
+div#bnodes label a span, 
+div#inverses label a span,
+.c1 a span {
+    font-weight: 600 !important;
+    color: #212121 !important;
+}
+
+/* FIX: Mantiene il bianco nell'abstract sovrascrivendo la regola sopra */
+#abstract label a span {
+    color: inherit !important;
+}
+
+/* 2. VALORI E DATE (Colonna destra) */
+div#directs .value, 
+div#directs .value a,
+div#bnodes .valuecnt,
+div#bnodes .value a,
+div#inverses .value,
+div#inverses .value a,
+.value div,
+.valuecnt div,
+.derivedTitle {
+    font-weight: 300 !important;
+    font-size: 14px !important;
+}
+
+/* FIX: Ripristina font originale nell'abstract per le descrizioni */
+#abstract .value, 
+#abstract .value div {
+    font-weight: inherit !important;
+    font-size: inherit !important;
+}
+
+/* 3. TESTATA (Titoli e Istanze) */
+span.istance .istanceOf { 
+    font-weight: 300 !important; 
+}
+
+span.istance span:last-child { 
+    font-weight: 600 !important; 
+}

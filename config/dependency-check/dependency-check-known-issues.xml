@@ -47,4 +47,68 @@
         <cve>CVE-2020-11023</cve>
     </suppress>
 
+    <!-- Apache HttpComponents Core 5.5 GA: NVD CPE false positives.
+         Both CVEs affect <= 5.4.2 and <= 5.5-beta1 and are fixed in 5.5 GA. -->
+    <suppress>
+        <notes><![CDATA[httpcore5 5.5 GA false positive — fixed in 5.5 final (affects <= 5.5-beta1)]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents\.core5/httpcore5(-h2)?@5\.5$</packageUrl>
+        <cve>CVE-2026-54399</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[httpcore5 5.5 GA false positive — fixed in 5.5 final (affects <= 5.5-beta1)]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents\.core5/httpcore5(-h2)?@5\.5$</packageUrl>
+        <cve>CVE-2026-54428</cve>
+    </suppress>
+
+    <!-- Spring Framework 6.2.19 (final OSS release of 6.2.x; Spring Boot 4.x upgrade deferred).
+         None of the affected modules/features are used by LodView. -->
+    <suppress>
+        <notes><![CDATA[Spring MVC XsltView SSRF/RCE — not applicable: LodView uses JSP/JSTL views, not XsltView]]></notes>
+        <cve>CVE-2026-47884</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring WebFlux PartEventHttpMessageReader — not applicable: LodView is a Servlet/Spring MVC app, not WebFlux]]></notes>
+        <cve>CVE-2026-47885</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[SpEL power operator DoS — not applicable: LodView does not evaluate user-supplied SpEL expressions]]></notes>
+        <cve>CVE-2026-47886</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring RSocket SETUP frame memory leak — not applicable: LodView does not use RSocket]]></notes>
+        <cve>CVE-2026-47888</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring WebFlux Jetty 12 cookie SameSite — not applicable: LodView runs on Tomcat with Servlet MVC]]></notes>
+        <cve>CVE-2026-47889</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring MVC/WebFlux SSE view fragment stream corruption — not applicable: LodView does not use Server-Sent Events]]></notes>
+        <cve>CVE-2026-47890</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring WebFlux Aalto XML maxInMemorySize — not applicable: LodView does not use WebFlux or Aalto XML]]></notes>
+        <cve>CVE-2026-47891</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring WebFlux functional endpoints pre-flight bypass — not applicable: LodView does not use WebFlux]]></notes>
+        <cve>CVE-2026-47892</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring WebFlux WebSocket header disclosure — not applicable: LodView does not use WebFlux WebSockets]]></notes>
+        <cve>CVE-2026-47893</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring data binding self-populating List DoS — not applicable: LodView does not bind untrusted nested list paths]]></notes>
+        <cve>CVE-2026-59282</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[SpEL SimpleEvaluationContext compiler bypass — not applicable: LodView does not evaluate user-supplied SpEL expressions]]></notes>
+        <cve>CVE-2026-59283</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[Spring MVC functional SSE stream corruption — not applicable: LodView does not use Server-Sent Events]]></notes>
+        <cve>CVE-2026-59313</cve>
+    </suppress>
+
 </suppressions>
